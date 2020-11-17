@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
+from decouple import config
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
@@ -20,10 +22,10 @@ BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '*$%)ny(n4z=&68jz*(o7f6$h4+lkx9pt9e$29h-%yy06m!(-dn'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG')
 
 ALLOWED_HOSTS = []
 
@@ -42,7 +44,8 @@ INSTALLED_APPS = [
     'BookStore',
 ]
 
-REST_FRAMEWORK = {'DEFAULT_AUTHENTICATION_CLASSES': ('knox.auth.TokenAuthentication',)}
+REST_FRAMEWORK = {'DEFAULT_AUTHENTICATION_CLASSES': (
+    'knox.auth.TokenAuthentication',)}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -81,11 +84,11 @@ WSGI_APPLICATION = 'BookStoreApp.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'booksstore',
-        'HOST': '127.0.0.1',
+        'NAME': config('DB_NAME'),
+        'HOST': config('DB_HOST'),
         'PORT': '3306',
-        'USER': 'root',
-        'PASSWORD': '25020680',
+        'USER': config('DB_USER'),
+        'PASSWORD': config('DB_PASSWORD'),
     }
 }
 

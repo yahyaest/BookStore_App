@@ -10,8 +10,8 @@ class Book(models.Model):
     genre = models.CharField(max_length=100)
     publisher = models.CharField(max_length=100)
     date = models.CharField(max_length=100)
-    summary = models.TextField(max_length=1000)
-    about_author = models.TextField(max_length=1000)
+    summary = models.TextField(max_length=10000)
+    about_author = models.TextField(max_length=10000)
     rate = models.FloatField(default=0.0)
 
     def __str__(self):
@@ -42,7 +42,7 @@ class Profile(models.Model):
                                 primary_key=True)
     age = models.IntegerField()
     country = models.CharField(max_length=100)
-    reded_books = models.TextField(max_length=1000)
+    ordered_books = models.TextField(max_length=1000)
 
     def __str__(self):
         return self.user.username
