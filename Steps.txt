@@ -1,0 +1,82 @@
+Part I : Basic REST API :
+1-Command : pip3 install pipenv  //install virtual envirment globaly 
+2-Command : pipenv shell //Create Pipfile in project path and activate environment
+3-Command : pipenv install django djangorestframework django-rest-knox
+4-Command : django-admin startproject projectName  // Create django project
+5-select python environment: in VS code type >python select interpreter (select the project python interpreter  :contain pipenv)
+6-Command : python manage.py startapp appName // Create django app
+7-Django : add ('appName', 'rest_framework') in INSTALLED_APPS in settings.py
+8-Django : create model
+9-Command : python manage.py makemigrations appName
+10-Command : python manage.py migrate
+11-Django : create Serializer in serializer.py
+12-Django : create api in api.py
+13-Django : create app urls.py and configure project urls.py
+14-Command : pip freeze > requirements.txt
+
+xx-Command : $ python manage.py createsuperuser  //Admin
+add from .models import modelName
+    admin.site.register(modelName)
+in admin.py
+
+Part II : Implement React
+0++ -Command :  pip install django-cors-headers  
+&& add 'corsheaders' in INSTALLED_APPS in settings.py 
+&& add 'corsheaders.middleware.CorsMiddleware' in MIDDLEWARE in settings.py 
+&& add CORS_ORIGIN_WHITELIST = [
+    "http://localhost:3000",
+] in settings.py 
+&& add STATICFILES_DIRS = [os.path.join(BASE_DIR, 'frontend/build/static')]
+&& add 'DIR' : [os.path.join(BASE_DIR, 'to_do_app/build')] in TEMPLATES in settings.py
+: let react connect to django api
+
+1-Command : python manage.py startapp frontend
+2-Command : npm init -y  in root directory(where pip file exist)
+3-command: npm i -D webpack webpack-cli
+4-command: npm i -D @babel/core babel-loader @babel/preset-env @babel/preset-react babel-plugin-transform-class-properties
+5-command: npm i react react-dom prop-types
+6- Create .gitignore .babelrc files
+7- Create webpack.config.js file
+8- Configure scripts in package.json file
+9-Set up index.js, app.js and index.html (with bootstrap and bootswatch scripts) files
+10-Add 'frontend' in INSTALLED_APPS in settings.py 
+11- Create index view in frontend/view.py
+12- Create and configure /frontend/urls.py then configure project urls.py
+13-Command: npm run dev
+
+Part III : Redux & HTTP
+1-Command : npm i redux react-redux redux-thunk redux-devtools-extension
+2-Command : npm i axios
+
+Part IV : Error Handling & Alerts
+1-Command : npm i react-alert react-alert-template-basic react-transition-group
+
+Part V : Django Token Authentication
+1-Django : create User model (built in then link it to base model)
+2-Command : python manage.py makemigrations
+3-Command : python manage.py migrate
+4-Django : modify api permission in api.py
+5-Django : add 'knox' in INSTALLED_APPS in settings.py (knox is used for tokens)
+6-Django : add REST_FRAMEWORK = {'DEFAULT_AUTHENTICATION_CLASSES': ('knox.auth.TokenAuthentication',)}
+ in settings.py
+7-Command : python manage.py migrate
+8-Command : python manage.py startapp accounts
+9-Django : python manage.py startapp accounts and add 'accounts' in INSTALLED_APPS in settings.py
+10-Django : create UserSerializer, RegisterSerializer, LoginSerializer in serializers.py
+11-Django : create RegisterAPI, LoginAPI, UserAPI in api.py
+12-Django : create app urls.py and configure project urls.py
+
+Part VI : Auth State & Private Routes
+1-Command : npm i react-router-dom
+
+Part VII : Frontend Authentication
+
+
+
+
+
+
+
+
+
+
