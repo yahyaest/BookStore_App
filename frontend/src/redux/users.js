@@ -19,6 +19,9 @@ const slice = createSlice({
       const index = users.findIndex((user) => user.id === action.id);
       users.splice(index, 1);
     },
+    userUpdatedInStore: (users, action) => {
+      const index = users.findIndex((user) => user.id === action.id);
+    },
   },
 });
 
@@ -60,6 +63,7 @@ export const loadUsers = () => (dispatch) => {
         age: profiles[i].age,
         country: profiles[i].country,
         ordered_books: profiles[i].ordered_books,
+        liked_books: profiles[i].liked_books,
         is_superuser: users[i].is_superuser,
       };
       usersProfiles.push(usersProfiles[i]);
@@ -72,4 +76,35 @@ export const loadUsers = () => (dispatch) => {
   };
 
   setUsersProfiles();
+};
+
+export const updateUserInStore = () => async (dispatch) => {};
+
+export const updateProfile = (profile) => async () => {
+  const { country, age } = profile;
+  let newId = await getNewestId();
+  let id = (await newId()) - 1;
+  console.log("debug", id);
+  axios
+    .patch(`http://127.0.0.1:8000/api/profiles/${id}/`, { country, age })
+    .then((res) => {})
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+// Get last user id
+export const getNewestId = () => async () => {
+  let id = 0;
+  await axios
+    .get("http://127.0.0.1:8000/api/users/")
+    .then((res) => {
+      const usersNumber = res.data.length;
+      id = res.data[usersNumber - 1].id;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  // console.log(id);
+  return id + 1; // next created id
 };

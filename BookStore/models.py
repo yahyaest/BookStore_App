@@ -29,6 +29,7 @@ class Book(models.Model):
     about_author = models.TextField(max_length=10000)
     price = models.IntegerField(default=0)
     rate = models.FloatField(default=0.0)
+    image = models.ImageField(null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -40,7 +41,8 @@ class Comments(models.Model):
     comment = models.TextField(max_length=1000)
     like_counter = models.IntegerField(default=0)
     dislike_counter = models.IntegerField(default=0)
-    comment_replies = models.JSONField(encoder=None, decoder=None, default=[""])
+    comment_replies = models.JSONField(
+        encoder=None, decoder=None, default=[""])
 
     def __str__(self):
         return self.user.username + self.book.name

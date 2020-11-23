@@ -132,11 +132,18 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
+STATIC_URL = '/static/'
+
+MEDIA_URL = '/images/'
+
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'frontend/build/static')]
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'frontend/src/images/image_DB')
+
+
 CORS_ORIGIN_WHITELIST = [
     "http://localhost:3000",
     "http://localhost:3001",
 ]
 
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'frontend/build/static')]
 
-STATIC_URL = '/static/'
