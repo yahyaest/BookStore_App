@@ -2,16 +2,17 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { loadBook } from "./../redux/books";
+import BookComment from './bookComment';
 import { Button } from "react-bootstrap";
 import NavBar from "./../common/navbar";
 
 function BookInfoPage(props) {
   BookInfoPage.propTypes = { book: PropTypes.object.isRequired };
-  const book_id = props.match.params.id;
+  const bookId = props.match.params.id;
   const { book } = props;
 
   useEffect(() => {
-    props.loadBook(book_id);
+    props.loadBook(bookId);
   }, []);
   return (
     <React.Fragment>
@@ -44,6 +45,8 @@ function BookInfoPage(props) {
       </div>
       <div className="comments__component">
         <h3>Comments</h3>
+        <BookComment bookId={book.id}/>
+
       </div>
     </React.Fragment>
   );

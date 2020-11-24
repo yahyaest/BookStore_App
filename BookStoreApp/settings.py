@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'django_filters',
     'knox',
     'corsheaders',
     'BookStore',
@@ -47,7 +48,8 @@ INSTALLED_APPS = [
 ]
 
 REST_FRAMEWORK = {'DEFAULT_AUTHENTICATION_CLASSES': (
-    'knox.auth.TokenAuthentication',)}
+    'knox.auth.TokenAuthentication',),
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -145,5 +147,3 @@ CORS_ORIGIN_WHITELIST = [
     "http://localhost:3000",
     "http://localhost:3001",
 ]
-
-

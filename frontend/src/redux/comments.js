@@ -3,13 +3,13 @@ import axios from "axios";
 
 const slice = createSlice({
   name: "comments",
-  initialState: [],
+  initialState: { comments: [] },
   reducers: {
     commentAdded: (comments, action) => {
       comments.push(action.payload);
     },
     commentsloaded: (comments, action) => {
-      comments[0] = action.payload;
+      comments.comments = action.payload;
     },
     commentloaded: (comments, action) => {
       const index = comments.findIndex((comment) => comment.id === action.id);

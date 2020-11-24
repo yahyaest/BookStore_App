@@ -2,7 +2,7 @@ import React from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 
-function BooksCarouselComponent(props) {
+ function BooksCarouselComponent(props) {
   const { booksList } = props;
   const responsive = {
     desktop: {
@@ -10,7 +10,6 @@ function BooksCarouselComponent(props) {
       items: 5,
     },
   };
-
 
   console.log(booksList?.length);
   return (
@@ -33,7 +32,6 @@ function BooksCarouselComponent(props) {
           </div>
         ))}
 
-        <div>Item 1</div>
       </Carousel>
     </React.Fragment>
   );

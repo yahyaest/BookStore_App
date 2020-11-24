@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 // Redux Store
 import store from "./store";
-import { getLastId, loadUser } from "./redux/auth";
+import { loadUser } from "./redux/auth";
 import { loadUsers } from "./redux/users";
 import { loadBooks } from "./redux/books";
 import { loadComments } from "./redux/comments";
@@ -25,7 +25,6 @@ function App() {
     await store.dispatch(loadBooks());
     await store.dispatch(loadComments());
     await store.dispatch(loadOrders());
-    // await store.dispatch(getLastId());
   }, []);
 
   return (

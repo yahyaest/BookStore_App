@@ -3,13 +3,13 @@ import axios from "axios";
 
 const slice = createSlice({
   name: "users",
-  initialState: [],
+  initialState: { users: [], currentUser: {} },
   reducers: {
     userAdded: (users, action) => {
       users.push(action.payload);
     },
     usersloaded: (users, action) => {
-      users[0] = action.payload;
+      users.users = action.payload;
     },
     userloaded: (users, action) => {
       const index = users.findIndex((user) => user.id === action.id);
@@ -18,9 +18,6 @@ const slice = createSlice({
     userRemoved: (users, action) => {
       const index = users.findIndex((user) => user.id === action.id);
       users.splice(index, 1);
-    },
-    userUpdatedInStore: (users, action) => {
-      const index = users.findIndex((user) => user.id === action.id);
     },
   },
 });
@@ -77,8 +74,6 @@ export const loadUsers = () => (dispatch) => {
 
   setUsersProfiles();
 };
-
-export const updateUserInStore = () => async (dispatch) => {};
 
 export const updateProfile = (profile) => async () => {
   const { country, age } = profile;
