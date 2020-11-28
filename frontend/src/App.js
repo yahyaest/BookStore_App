@@ -17,6 +17,7 @@ import Register from "./common/register";
 // CSS
 import "./App.css";
 import "./css/books.css";
+import "./css/comments.css"
 
 function App() {
   useEffect(async () => {

@@ -39,8 +39,13 @@ class Comments(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
     comment = models.TextField(max_length=1000)
+    created_at = models.DateTimeField(auto_now_add=True)
     like_counter = models.IntegerField(default=0)
     dislike_counter = models.IntegerField(default=0)
+    like_submitter = models.JSONField(
+        encoder=None, decoder=None, default=[""])
+    dislike_submitter = models.JSONField(
+        encoder=None, decoder=None, default=[""])
     comment_replies = models.JSONField(
         encoder=None, decoder=None, default=[""])
 

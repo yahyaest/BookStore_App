@@ -5,19 +5,23 @@ const slice = createSlice({
   name: "comments",
   initialState: { comments: [] },
   reducers: {
-    commentAdded: (comments, action) => {
-      comments.push(action.payload);
-    },
     commentsloaded: (comments, action) => {
       comments.comments = action.payload;
     },
-    commentloaded: (comments, action) => {
-      const index = comments.findIndex((comment) => comment.id === action.id);
-      comments[index] = action.payload;
+    // commentloaded: (comments, action) => {
+    //   const index = comments.findIndex((comment) => comment.id === action.id);
+    //   comments[index] = action.payload;
+    // },
+    commentAdded: (comments, action) => {
+      comments.push(action.payload);
     },
-    commentRemoved: (comments, action) => {
+    // commentRemoved: (comments, action) => {
+    //   const index = comments.findIndex((comment) => comment.id === action.id);
+    //   comments.splice(index, 1);
+    // },
+    commentCounterUpdated: (comments, action) => {
       const index = comments.findIndex((comment) => comment.id === action.id);
-      comments.splice(index, 1);
+      comments.comments[index] = action.payload;
     },
   },
 });
@@ -37,5 +41,53 @@ export const loadComments = () => (dispatch) => {
         payload: res.data,
       });
     })
+    .catch((err) => console.log(err));
+};
+
+export const addComment = (comment) => (dispatch) => {
+  axios
+    .post(`http://127.0.0.1:8000/api/comments/`, comment)
+    .then((res) => {
+      dispatch({
+        type: slice.actions.commentAdded.type,
+        payload: res.data,
+      });
+    })
+    .catch((err) => console.log(err));
+};
+
+export const updateCommentCounter = (comment, id) => () => {
+  const {
+    like_counter,
+    like_submitter,
+    dislike_counter,
+    dislike_submitter,
+  } = comment;
+
+  axios
+    .patch(`http://127.0.0.1:8000/api/comments/${id}/`, {
+      like_counter,
+      like_submitter,
+      dislike_counter,
+      dislike_submitter,
+    })
+    .then((res) => {
+      dispatch({
+        type: slice.actions.commentCounterUpdated.type,
+        payload: res.data,
+        id,
+      });
+    })
+    .catch((err) => console.log(err));
+};
+
+export const updateCommentReplies = (comment, id) => (dispatch) => {
+  const { comment_replies } = comment;
+
+  axios
+    .patch(`http://127.0.0.1:8000/api/comments/${id}/`, {
+      comment_replies,
+    })
+    .then((res) => {})
     .catch((err) => console.log(err));
 };

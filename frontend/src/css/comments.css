@@ -1,0 +1,64 @@
+.book__comments {
+  width: 80%;
+}
+
+.comment__add {
+  margin: 20px 0;
+}
+
+.book__comment {
+  margin-bottom: 25px;
+}
+
+.comment__header {
+  display: flex;
+  flex-direction: row;
+}
+
+.comment__date {
+  color: gray;
+  margin: 0 10px;
+}
+
+.comment__showReplies {
+  margin-top: 10px;
+}
+
+.selectedLike {
+  color: skyblue;
+  margin: 0 10px;
+  transition: all 0.5s ease;
+  cursor: pointer;
+}
+
+.like {
+  color: lightgray;
+  margin: 0 10px;
+  transition: all 0.5s ease;
+  cursor: pointer;
+}
+
+.selectedLike:hover {
+  color: gray;
+  margin: 0 10px;
+}
+
+.like:hover {
+  color: gray;
+  margin: 0 10px;
+}
+
+/* comment__replies */
+.comment__showReplies {
+  display: flex;
+  flex-direction: row;
+  cursor: pointer;
+  color: blue;
+}
+
+.comment__showReplies p {
+  margin-left: 5px;
+}
+.comment__replies {
+  margin-left: 50px;
+}
