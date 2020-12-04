@@ -13,14 +13,16 @@ const slice = createSlice({
     //   comments[index] = action.payload;
     // },
     commentAdded: (comments, action) => {
-      comments.push(action.payload);
+      comments.comments.push(action.payload);
     },
     // commentRemoved: (comments, action) => {
     //   const index = comments.findIndex((comment) => comment.id === action.id);
     //   comments.splice(index, 1);
     // },
-    commentCounterUpdated: (comments, action) => {
-      const index = comments.findIndex((comment) => comment.id === action.id);
+    commentUpdated: (comments, action) => {
+      const index = comments.comments.findIndex(
+        (comment) => comment.id === action.id
+      );
       comments.comments[index] = action.payload;
     },
   },
@@ -56,7 +58,7 @@ export const addComment = (comment) => (dispatch) => {
     .catch((err) => console.log(err));
 };
 
-export const updateCommentCounter = (comment, id) => () => {
+export const updateCommentCounter = (comment, id) => (dispatch) => {
   const {
     like_counter,
     like_submitter,
@@ -73,7 +75,7 @@ export const updateCommentCounter = (comment, id) => () => {
     })
     .then((res) => {
       dispatch({
-        type: slice.actions.commentCounterUpdated.type,
+        type: slice.actions.commentUpdated.type,
         payload: res.data,
         id,
       });
@@ -88,6 +90,12 @@ export const updateCommentReplies = (comment, id) => (dispatch) => {
     .patch(`http://127.0.0.1:8000/api/comments/${id}/`, {
       comment_replies,
     })
-    .then((res) => {})
+    .then((res) => {
+      dispatch({
+        type: slice.actions.commentUpdated.type,
+        payload: res.data,
+        id,
+      });
+    })
     .catch((err) => console.log(err));
 };

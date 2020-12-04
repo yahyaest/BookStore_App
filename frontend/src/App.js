@@ -13,11 +13,13 @@ import BooksMainComponent from "./components/booksMainComponent";
 import BookInfoPage from "./components/bookInfoPage";
 import Login from "./common/login";
 import Register from "./common/register";
+import Home from "./components/home";
 
 // CSS
 import "./App.css";
+import "./css/home.css";
 import "./css/books.css";
-import "./css/comments.css"
+import "./css/comments.css";
 
 function App() {
   useEffect(async () => {
@@ -35,6 +37,8 @@ function App() {
         <Route path="/books" component={BooksMainComponent}></Route>
         <Route path="/login" component={Login}></Route>
         <Route path="/register" component={Register}></Route>
+        <Route path="/home" component={Home}></Route>
+        <Redirect from="/" exact to="/home"></Redirect>
       </Switch>
     </div>
   );

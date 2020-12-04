@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import { PropTypes } from "prop-types";
 import {
@@ -72,7 +72,6 @@ function BookComment(props) {
       commentObject.like_submitter = [];
       commentObject.dislike_submitter = [];
       props.addComment(commentObject);
-      window.location.reload();
     }
   };
 
@@ -94,7 +93,7 @@ function BookComment(props) {
     }
   };
 
-  const handleIncrementCounter = (comment, id, index) => {
+  const handleIncrementCounter = (comment, id) => {
     if (!isAuthenticated) alert("You need to log in to perform this action.");
     else {
       // Copy from comment Object with spread operator
@@ -128,11 +127,10 @@ function BookComment(props) {
       tempComment.like_submitter = submitter_like_list;
       tempComment.dislike_submitter = submitter_dislike_list;
       props.updateCommentCounter(tempComment, id);
-      window.location.reload();
     }
   };
 
-  const handleDecrementCounter = (comment, id, index) => {
+  const handleDecrementCounter = (comment, id) => {
     if (!isAuthenticated) alert("You need to log in to perform this action.");
     else {
       // Copy from comment Object with spread operator
@@ -166,11 +164,10 @@ function BookComment(props) {
       tempComment.like_submitter = submitter_like_list;
       tempComment.dislike_submitter = submitter_dislike_list;
       props.updateCommentCounter(tempComment, id);
-      window.location.reload();
     }
   };
 
-  const handleSendButton = (comment, id, submitter) => {
+  const handleSendButton = (comment, id, submitter, index) => {
     if (!reply) alert("The reply field is empty.");
     else {
       let tempComment = { ...comment };
@@ -180,7 +177,11 @@ function BookComment(props) {
       replies.push(replyObject);
       tempComment.comment_replies = replies;
       props.updateCommentReplies(tempComment, id);
-      window.location.reload();
+      // Hide reply input
+      
+      let array = [...isReply];
+      array[index] = false;
+      setIsReply(array);
     }
   };
 
@@ -199,8 +200,6 @@ function BookComment(props) {
   };
 
   const handleCounterButtonColor = (list) => {
-    //if (active) return "selectedLike";
-    //else return "like";
     const found = list.findIndex((element) => element === username);
     if (found === -1) return "like";
     else return "selectedLike";
@@ -241,9 +240,7 @@ function BookComment(props) {
                 className={`fa fa-thumbs-up ${handleCounterButtonColor(
                   comment.like_submitter
                 )}`}
-                onClick={() =>
-                  handleIncrementCounter(comment, comment.id, index)
-                }
+                onClick={() => handleIncrementCounter(comment, comment.id)}
               >
                 {" "}
                 {comment.like_counter}
@@ -252,9 +249,7 @@ function BookComment(props) {
                 className={`fa fa-thumbs-down ${handleCounterButtonColor(
                   comment.dislike_submitter
                 )}`}
-                onClick={() =>
-                  handleDecrementCounter(comment, comment.id, index)
-                }
+                onClick={() => handleDecrementCounter(comment, comment.id)}
               >
                 {" "}
                 {comment.dislike_counter}
@@ -285,7 +280,7 @@ function BookComment(props) {
                   <Button
                     variant="outline-secondary"
                     onClick={() =>
-                      handleSendButton(comment, comment.id, username)
+                      handleSendButton(comment, comment.id, username,index)
                     }
                   >
                     Send

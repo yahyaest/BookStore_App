@@ -50,7 +50,10 @@ class Comments(models.Model):
         encoder=None, decoder=None, default=[""])
 
     def __str__(self):
-        return self.user.username + self.book.name
+        return self.user.username + ' ' + self.book.name
+
+    class Meta:
+        verbose_name_plural = "Comments"
 
 
 class Order(models.Model):
@@ -62,7 +65,7 @@ class Order(models.Model):
     is_shiped = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.user.username + self.book.name
+        return self.user.username + ' ' + self.book.name
 
 
 class Profile(models.Model):

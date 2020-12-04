@@ -13,6 +13,12 @@
 
 .book__card {
   margin: 20px;
+  cursor: pointer;
+  transition: all 0.5s ease;
+}
+
+.book__card:hover {
+  transform: scale(1.05);
 }
 
 .carousel__img {
@@ -34,7 +40,8 @@
 }
 
 .book__img {
-  margin-top: 50px;
+  width: 100%;
+  margin-top: 100px;
 }
 
 .book__info {
@@ -50,4 +57,9 @@
   width: 60%;
   margin: auto;
   text-align: left;
+}
+
+.text__controller {
+  cursor: pointer;
+  margin: 0 10px;
 }

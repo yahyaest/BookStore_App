@@ -29,7 +29,7 @@ function Login(props) {
     }
   };
 
-  console.log(props.isAuthenticated);
+ // console.log(props.isAuthenticated);
   if (props.isAuthenticated) {
     return <Redirect to="/home" />;
   }

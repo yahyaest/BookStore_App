@@ -25,9 +25,10 @@ class UserViewSet(viewsets.ModelViewSet):
 # Book Viewset
 class BookViewSet(viewsets.ModelViewSet):
     queryset = Book.objects.all()  #: No permission is required
-    filter_backends = (DjangoFilterBackend, OrderingFilter)
-    filter_fields = ('genre',)
-    ordering_fields = ('username')
+    filter_backends = (DjangoFilterBackend, OrderingFilter, SearchFilter)
+    filter_fields = ['genre']
+    ordering_fields = ['name']
+    search_fields = ['name']
 
     permission_classes = [
         permissions.AllowAny  #: No permission is required

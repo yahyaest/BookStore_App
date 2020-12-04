@@ -1,52 +1,41 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { loadBook } from "./../redux/books";
-import BookComment from './bookComment';
-import { Button } from "react-bootstrap";
+import BookComment from "./bookComment";
+import BookInfo from "./bookInfo";
 import NavBar from "./../common/navbar";
 
 function BookInfoPage(props) {
-  BookInfoPage.propTypes = { book: PropTypes.object.isRequired };
+  BookInfoPage.propTypes = {
+    book: PropTypes.object.isRequired,
+    users: PropTypes.array.isRequired,
+    username: PropTypes.string.isRequired,
+    loadBook: PropTypes.func.isRequired,
+  };
   const bookId = props.match.params.id;
-  const { book } = props;
+  const { book, username, users } = props;
+  const [user, setUser] = useState({});
+
+  const getUser = () => {
+    const profile = users.filter((user) => user.username === username);
+    setUser(profile[0]);
+  };
 
   useEffect(() => {
     props.loadBook(bookId);
-  }, []);
+    getUser();
+  }, [users]);
+
   return (
     <React.Fragment>
       <NavBar />
-      <div className="book__component">
-        <div className="book__img">
-          <img src={book.image} alt="" />
-        </div>
-        <div className="book__info">
-          <h1 className="book__title">{book.name}</h1>
-          <h5 className="book__author">Author : {book.author}</h5>
-          <h6 className="book__genre">Genre : {book.genre}</h6>
-          <h6 className="book__publisher">Publisher : {book.publisher}</h6>
-          <div className="book__purshase">
-            <strong>{book.price} $</strong>
-            <div className="book__buttons">
-              <Button variant="info" className="chart">
-                Add To Chart
-              </Button>
-              <Button variant="light" className="favourite">
-                Add To Favourites
-              </Button>
-            </div>
-          </div>
-          <h3>Description</h3>
-          <p>{book.summary}</p>
-          <h3>About Author</h3>
-          <p>{book.about_author}</p>
-        </div>
-      </div>
+
+      <BookInfo book={book} user={user} />
       <div className="comments__component">
         <h3>Comments</h3>
-        <BookComment bookId={book.id}/>
 
+        <BookComment bookId={book.id} />
       </div>
     </React.Fragment>
   );
@@ -54,6 +43,10 @@ function BookInfoPage(props) {
 
 const mapStateToProps = (state) => ({
   book: state.books.currentBook,
+  username: state.auth.username,
+  users: state.users.users,
 });
 
-export default connect(mapStateToProps, { loadBook })(BookInfoPage);
+export default connect(mapStateToProps, {
+  loadBook,
+})(BookInfoPage);

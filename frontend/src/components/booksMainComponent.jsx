@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import { Link, useHistory } from "react-router-dom";
 import { Card } from "react-bootstrap";
 import NavBar from "./../common/navbar";
 import BooksCarouselComponent from "./booksCarouselComponent";
@@ -10,11 +11,16 @@ function BooksComponentPage(props) {
     books: PropTypes.array.isRequired,
   };
 
+  let history = useHistory();
+
+  const goToBookPage = (id) => {
+    history.push(`/books/${id}`);
+  };
+  
   return (
     <React.Fragment>
       <NavBar />
       <div className="books">
-     
         <BooksCarouselComponent
           className="books__carousel"
           booksList={props.books}
@@ -25,13 +31,14 @@ function BooksComponentPage(props) {
               key={book.id}
               className="book__card"
               style={{ width: "18rem" }}
+              onClick={() => goToBookPage(book.id)}
             >
               <Card.Img variant="top" src={book.image} />
               <Card.Body>
                 <Card.Title>{book.name}</Card.Title>
 
                 <Card.Text>{book.author}</Card.Text>
-                <Card.Text>Rate : {book.rate} (lenght)</Card.Text>
+                <Card.Text>Rate : {book.rate} </Card.Text>
                 <Card.Text>
                   <strong>{book.price} $</strong>
                 </Card.Text>
