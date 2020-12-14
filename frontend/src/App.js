@@ -11,6 +11,7 @@ import { loadOrders } from "./redux/orders";
 
 import BooksMainComponent from "./components/booksMainComponent";
 import BookInfoPage from "./components/bookInfoPage";
+import Orders from "./components/orders";
 import Login from "./common/login";
 import Register from "./common/register";
 import Home from "./components/home";
@@ -20,6 +21,7 @@ import "./App.css";
 import "./css/home.css";
 import "./css/books.css";
 import "./css/comments.css";
+import "./css/orders.css";
 
 function App() {
   useEffect(async () => {
@@ -34,7 +36,8 @@ function App() {
     <div className="App">
       <Switch>
         <Route path="/books/:id" component={BookInfoPage}></Route>
-        <Route path="/books" component={BooksMainComponent}></Route>
+        <Route path="/books" component={BooksMainComponent}></Route>{" "}
+        <Route path="/orders" component={Orders}></Route>
         <Route path="/login" component={Login}></Route>
         <Route path="/register" component={Register}></Route>
         <Route path="/home" component={Home}></Route>

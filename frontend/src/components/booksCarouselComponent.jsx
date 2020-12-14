@@ -11,7 +11,7 @@ import "react-multi-carousel/lib/styles.css";
     },
   };
 
-  console.log(booksList?.length);
+  // console.log(booksList?.length);
   return (
     <React.Fragment>
       <Carousel

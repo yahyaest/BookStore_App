@@ -6,7 +6,7 @@ from .models import Book, Order, Profile, Comments
 class BookAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'author',
                     'genre',
-                    'price')
+                    'price', 'rate')
 
 
 class CommentsAdmin(admin.ModelAdmin):

@@ -29,6 +29,13 @@
   transform: scale(1.1);
 }
 
+.books__filters {
+  width: 80%;
+  margin: 30px auto ;
+  display: flex;
+  justify-content: space-between;
+}
+
 /* book component */
 .book__component {
   width: 60%;

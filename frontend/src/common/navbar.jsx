@@ -39,6 +39,15 @@ function NavBar(props) {
               </p>
             </Link>
           </div>
+
+          {isAuthenticated && (
+            <div className="navbar-item">
+              <p style={{ color: "gold" }}>
+                Hello <strong style={{ color: "gold" }}>{username}</strong>
+              </p>
+            </div>
+          )}
+
           <div id="navbarMenuHeroB" className="navbar-menu">
             <div className="navbar-end">
               <Link
@@ -55,9 +64,14 @@ function NavBar(props) {
               >
                 Books
               </Link>
-              <a className="navbar-item" style={{ color: "gold" }}>
-                Documentation
-              </a>
+              {isAuthenticated && <Link
+                to="/orders"
+                className="navbar-item"
+                style={{ color: "gold" }}
+              >
+                Orders
+              </Link>}
+
               <span className="navbar-item">
                 <a
                   className="button is-info is-inverted"

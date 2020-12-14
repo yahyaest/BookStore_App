@@ -1,17 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { updateProfileOrders } from "./../redux/users";
+import { updateProfileOrders, updateProfileLiked } from "./../redux/users";
 import { Button } from "react-bootstrap";
 
 function BookInfo(props) {
   BookInfo.propTypes = {
+    isAuthenticated: PropTypes.bool,
     updateProfileOrders: PropTypes.func.isRequired,
+    updateProfileLiked: PropTypes.func.isRequired,
   };
 
-  const { book, user } = props;
+  const { book, user, isAuthenticated } = props;
   const [isExpand, setIsExpand] = useState([false, false]);
   const [isOrdered, setIsOrdered] = useState(false);
+  const [isLiked, setIsLiked] = useState(false);
+
+  const sleep = (ms) => {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  };
 
   function truncate(str, n, i) {
     if (isExpand[i] === false)
@@ -25,41 +32,74 @@ function BookInfo(props) {
     setIsExpand(array);
   };
 
-  const CheckBookIsOrdered = async () => {
-    console.log(user);
-    let currentProfile = { ...user };
-    let { ordered_books } = currentProfile;
-    const found = ordered_books?.findIndex((order) => order.name === book.name);
-    if (found === -1) {
-      setIsOrdered(false);
-    } else {
-      setIsOrdered(true);
+  const CheckBookIsOrdered_Liked = async () => {
+    await sleep(1);
+    if (isAuthenticated) {
+      let currentProfile = { ...user };
+      // IsOrdered
+      let { ordered_books } = currentProfile;
+      const found_ordered = ordered_books?.findIndex(
+        (order) => order.name === book.name
+      );
+      if (found_ordered === -1) {
+        setIsOrdered(false);
+      } else {
+        setIsOrdered(true);
+      }
+      // IsLiked
+      let { liked_books } = currentProfile;
+      const found_liked = liked_books?.findIndex(
+        (order) => order.name === book.name
+      );
+      if (found_liked === -1) {
+        setIsLiked(false);
+      } else {
+        setIsLiked(true);
+      }
     }
   };
 
-  const sleep = (ms) => {
-    return new Promise((resolve) => setTimeout(resolve, ms));
-  };
-
-  useEffect(async () => {
-    await sleep(200);
-    CheckBookIsOrdered();
-  }, [isOrdered]);
+  useEffect(async () => {}, [isOrdered, isLiked]);
+  CheckBookIsOrdered_Liked();
 
   const handleChartButton = async (id) => {
-    let currentProfile = { ...user };
-    let { ordered_books } = currentProfile;
-    let arrayOrders = [...ordered_books];
-    const found = arrayOrders.findIndex((order) => order.name === book.name);
-    if (found === -1) {
-      arrayOrders.push(book);
-      setIsOrdered(true);
-    } else {
-      arrayOrders.splice(found, 1);
-      setIsOrdered(false);
+    if (!isAuthenticated)
+      return alert("You need to log in to perform this action.");
+    else {
+      let currentProfile = { ...user };
+      let { ordered_books } = currentProfile;
+      let arrayOrders = [...ordered_books];
+      const found = arrayOrders.findIndex((order) => order.name === book.name);
+      if (found === -1) {
+        arrayOrders.push(book);
+        setIsOrdered(true);
+      } else {
+        arrayOrders.splice(found, 1);
+        setIsOrdered(false);
+      }
+      currentProfile.ordered_books = arrayOrders;
+      props.updateProfileOrders(currentProfile, id);
     }
-    currentProfile.ordered_books = arrayOrders;
-    props.updateProfileOrders(currentProfile, id);
+  };
+
+  const handleFavouriteButton = async (id) => {
+    if (!isAuthenticated)
+      return alert("You need to log in to perform this action.");
+    else {
+      let currentProfile = { ...user };
+      let { liked_books } = currentProfile;
+      let arrayLiked = [...liked_books];
+      const found = arrayLiked.findIndex((order) => order.name === book.name);
+      if (found === -1) {
+        arrayLiked.push(book);
+        setIsLiked(true);
+      } else {
+        arrayLiked.splice(found, 1);
+        setIsLiked(false);
+      }
+      currentProfile.liked_books = arrayLiked;
+      props.updateProfileLiked(currentProfile, id);
+    }
   };
 
   return (
@@ -79,12 +119,16 @@ function BookInfo(props) {
               <Button
                 variant="info"
                 className="chart"
-                onClick={() => handleChartButton(user.id)}
+                onClick={() => handleChartButton(user?.id)}
               >
                 {isOrdered ? "Remove From Chart" : "Add To Chart"}
               </Button>
-              <Button variant="light" className="favourite">
-                Add To Favourites
+              <Button
+                variant="light"
+                className="favourite"
+                onClick={() => handleFavouriteButton(user?.id)}
+              >
+                {isLiked ? "Remove From Favourites" : "Add To Favourites"}
               </Button>
             </div>
           </div>
@@ -112,10 +156,12 @@ function BookInfo(props) {
 
 const mapStateToProps = (state) => ({
   book: state.books.currentBook,
-  username: state.auth.username,
   users: state.users.users,
+  username: state.auth.username,
+  isAuthenticated: state.auth.isAuthenticated,
 });
 
 export default connect(mapStateToProps, {
   updateProfileOrders,
+  updateProfileLiked,
 })(BookInfo);

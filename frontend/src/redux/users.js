@@ -14,9 +14,13 @@ const slice = createSlice({
     userloaded: (users, action) => {
       users.currentUser = action.payload;
     },
-    userUpdated: (users, action) => {
+    userOrderListUpdated: (users, action) => {
       const index = users.users.findIndex((user) => user.id === action.id);
       users.users[index].ordered_books = action.payload.ordered_books;
+    },
+    userLikedListUpdated: (users, action) => {
+      const index = users.users.findIndex((user) => user.id === action.id);
+      users.users[index].liked_books = action.payload.liked_books;
     },
     // userRemoved: (users, action) => {
     //   const index = users.findIndex((user) => user.id === action.id);
@@ -112,7 +116,25 @@ export const updateProfileOrders = (profile, id) => async (dispatch) => {
     })
     .then((res) => {
       dispatch({
-        type: slice.actions.userUpdated.type,
+        type: slice.actions.userOrderListUpdated.type,
+        payload: res.data,
+        id,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+export const updateProfileLiked = (profile, id) => async (dispatch) => {
+  const { liked_books } = profile;
+  axios
+    .patch(`http://127.0.0.1:8000/api/profiles/${id}/`, {
+      liked_books,
+    })
+    .then((res) => {
+      dispatch({
+        type: slice.actions.userLikedListUpdated.type,
         payload: res.data,
         id,
       });

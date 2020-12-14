@@ -59,8 +59,9 @@ function BookComment(props) {
   };
 
   const handleSendCommentButton = (comment) => {
-    if (!isAuthenticated) alert("You need to log in to perform this action.");
-    if (!newComment) alert("The comment field is empty.");
+    if (!isAuthenticated)
+      return alert("You need to log in to perform this action.");
+    if (!newComment) return alert("The comment field is empty.");
     else {
       let commentObject = {};
       commentObject.comment = comment;
@@ -178,7 +179,7 @@ function BookComment(props) {
       tempComment.comment_replies = replies;
       props.updateCommentReplies(tempComment, id);
       // Hide reply input
-      
+
       let array = [...isReply];
       array[index] = false;
       setIsReply(array);
@@ -280,7 +281,7 @@ function BookComment(props) {
                   <Button
                     variant="outline-secondary"
                     onClick={() =>
-                      handleSendButton(comment, comment.id, username,index)
+                      handleSendButton(comment, comment.id, username, index)
                     }
                   >
                     Send

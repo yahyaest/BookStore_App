@@ -10,7 +10,7 @@ function BookInfoPage(props) {
   BookInfoPage.propTypes = {
     book: PropTypes.object.isRequired,
     users: PropTypes.array.isRequired,
-    username: PropTypes.string.isRequired,
+    username: PropTypes.string,
     loadBook: PropTypes.func.isRequired,
   };
   const bookId = props.match.params.id;
@@ -21,12 +21,12 @@ function BookInfoPage(props) {
     const profile = users.filter((user) => user.username === username);
     setUser(profile[0]);
   };
-
+  
   useEffect(() => {
     props.loadBook(bookId);
     getUser();
   }, [users]);
-
+  
   return (
     <React.Fragment>
       <NavBar />
