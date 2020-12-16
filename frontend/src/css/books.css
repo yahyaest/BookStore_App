@@ -31,7 +31,7 @@
 
 .books__filters {
   width: 80%;
-  margin: 30px auto ;
+  margin: 30px auto;
   display: flex;
   justify-content: space-between;
 }
@@ -47,11 +47,12 @@
 }
 
 .book__img {
-  width: 100%;
+  width: 40%;
   margin-top: 100px;
 }
 
 .book__info {
+  width: 60%;
   padding: 20px;
   margin-left: 20px;
 }

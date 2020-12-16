@@ -14,7 +14,6 @@ function Login(props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-
   const onSubmit = (e) => {
     e.preventDefault();
     props.login(username, password);
@@ -29,11 +28,10 @@ function Login(props) {
     }
   };
 
- // console.log(props.isAuthenticated);
+  // console.log(props.isAuthenticated);
   if (props.isAuthenticated) {
     return <Redirect to="/home" />;
   }
-
 
   return (
     <div className="col-md-6 m-auto">

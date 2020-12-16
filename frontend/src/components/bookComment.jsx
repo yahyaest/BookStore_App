@@ -211,112 +211,115 @@ function BookComment(props) {
       <div className="book__comments">
         <InputGroup className="comment__add">
           <FormControl
+            as="textarea"
+            rows={4}
             placeholder="Add your comment..."
             aria-label="Add your reply"
             aria-describedby="basic-addon2"
             onChange={onChangeComment}
           />
-          <InputGroup.Append>
-            <Button
-              variant="outline-secondary"
-              onClick={() => handleSendCommentButton(newComment)}
-            >
-              Send
-            </Button>
-          </InputGroup.Append>
         </InputGroup>
-        {getBookComments(bookId, comments).map((comment, index) => (
-          <div key={comment.id} className="book__comment">
-            <div className="comment__header">
-              <strong className="comment__submitter">
-                {mapToUserName(comment.user, users)}
-              </strong>
-              <p className="comment__date">
-                {getCommentDate(comment.created_at)}
-              </p>
-            </div>
-            <p>{comment.comment}</p>
-            <div className="comment__reactions">
-              <i
-                className={`fa fa-thumbs-up ${handleCounterButtonColor(
-                  comment.like_submitter
-                )}`}
-                onClick={() => handleIncrementCounter(comment, comment.id)}
-              >
-                {" "}
-                {comment.like_counter}
-              </i>
-              <i
-                className={`fa fa-thumbs-down ${handleCounterButtonColor(
-                  comment.dislike_submitter
-                )}`}
-                onClick={() => handleDecrementCounter(comment, comment.id)}
-              >
-                {" "}
-                {comment.dislike_counter}
-              </i>
-              <Button
-                variant="light"
-                size="sm"
-                onClick={() => handleReplyButton(index)}
-              >
-                Reply
-              </Button>
-            </div>
-            {isReply[index] && (
-              <InputGroup className="comment__reply">
-                <FormControl
-                  placeholder="Add your reply"
-                  aria-label="Add your reply"
-                  aria-describedby="basic-addon2"
-                  onChange={onChangeReply}
-                />
-                <InputGroup.Append>
-                  <Button
-                    variant="outline-dark"
-                    onClick={() => handleCancelButton(index)}
-                  >
-                    Cancel
-                  </Button>
-                  <Button
-                    variant="outline-secondary"
-                    onClick={() =>
-                      handleSendButton(comment, comment.id, username, index)
-                    }
-                  >
-                    Send
-                  </Button>
-                </InputGroup.Append>
-              </InputGroup>
-            )}
-            <div
-              className="comment__showReplies"
-              onClick={() => handleShowReplies(index)}
-            >
-              {showReplies[index] ? (
-                <React.Fragment>
-                  <i className="fa fa-sort-up"></i>
-                  <p>Hide replies</p>
-                </React.Fragment>
-              ) : (
-                <React.Fragment>
-                  <i className="fa fa-sort-down"></i>
-                  <p>Show replies</p>
-                </React.Fragment>
+        <Button
+          className="comment__button"
+          variant="outline-secondary"
+          onClick={() => handleSendCommentButton(newComment)}
+        >
+          Send
+        </Button>
+        <div className="bookComments">
+          {getBookComments(bookId, comments).map((comment, index) => (
+            <div key={comment.id} className="book__comment">
+              <div className="comment__header">
+                <strong className="comment__submitter">
+                  {mapToUserName(comment.user, users)}
+                </strong>
+                <p className="comment__date">
+                  {getCommentDate(comment.created_at)}
+                </p>
+              </div>
+              <p>{comment.comment}</p>
+              <div className="comment__reactions">
+                <i
+                  className={`fa fa-thumbs-up ${handleCounterButtonColor(
+                    comment.like_submitter
+                  )}`}
+                  onClick={() => handleIncrementCounter(comment, comment.id)}
+                >
+                  {" "}
+                  {comment.like_counter}
+                </i>
+                <i
+                  className={`fa fa-thumbs-down ${handleCounterButtonColor(
+                    comment.dislike_submitter
+                  )}`}
+                  onClick={() => handleDecrementCounter(comment, comment.id)}
+                >
+                  {" "}
+                  {comment.dislike_counter}
+                </i>
+                <Button
+                  variant="light"
+                  size="sm"
+                  onClick={() => handleReplyButton(index)}
+                >
+                  Reply
+                </Button>
+              </div>
+              {isReply[index] && (
+                <InputGroup className="comment__reply">
+                  <FormControl
+                    placeholder="Add your reply"
+                    aria-label="Add your reply"
+                    aria-describedby="basic-addon2"
+                    onChange={onChangeReply}
+                  />
+                  <InputGroup.Append>
+                    <Button
+                      variant="outline-dark"
+                      onClick={() => handleCancelButton(index)}
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      variant="outline-secondary"
+                      onClick={() =>
+                        handleSendButton(comment, comment.id, username, index)
+                      }
+                    >
+                      Send
+                    </Button>
+                  </InputGroup.Append>
+                </InputGroup>
               )}
-            </div>
+              <div
+                className="comment__showReplies"
+                onClick={() => handleShowReplies(index)}
+              >
+                {showReplies[index] ? (
+                  <React.Fragment>
+                    <i className="fa fa-sort-up"></i>
+                    <p>Hide replies</p>
+                  </React.Fragment>
+                ) : (
+                  <React.Fragment>
+                    <i className="fa fa-sort-down"></i>
+                    <p>Show replies</p>
+                  </React.Fragment>
+                )}
+              </div>
 
-            <div className="comment__replies">
-              {showReplies[index] &&
-                comment.comment_replies.map((reply, index) => (
-                  <div key={index} className="comment__reply">
-                    <strong>{reply.submitter}</strong>
-                    <p>{reply.body}</p>
-                  </div>
-                ))}
+              <div className="comment__replies">
+                {showReplies[index] &&
+                  comment.comment_replies.map((reply, index) => (
+                    <div key={index} className="comment__reply">
+                      <strong>{reply.submitter}</strong>
+                      <p>{reply.body}</p>
+                    </div>
+                  ))}
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </React.Fragment>
   );

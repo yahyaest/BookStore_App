@@ -31,8 +31,11 @@ const slice = createSlice({
     loginSuccess: (auth, action) => {
       localStorage.setItem("token", action.payload.token);
       localStorage.setItem("username", action.payload.user.username);
+      auth.token = action.payload.token;
       auth.isAuthenticated = true;
       auth.isLoading = false;
+      auth.user = action.payload.user;
+      auth.username = action.payload.user.username;
     },
     loginFail: (auth, action) => {
       localStorage.removeItem("token");
@@ -115,11 +118,12 @@ export const login = (username, password) => (dispatch) => {
 
   axios
     .post("http://127.0.0.1:8000/api/auth/login", body, config)
-    .then((res) =>
-      dispatch({ type: slice.actions.loginSuccess.type, payload: res.data })
-    )
+    .then((res) => {
+      dispatch({ type: slice.actions.loginSuccess.type, payload: res.data });
+    })
     .catch((err) => {
       //dispatch(returnErrors(err.response.data, err.response.status));
+      console.log(err);
       dispatch({ type: slice.actions.loginFail.type });
     });
 };
@@ -130,6 +134,7 @@ export const logout = () => (dispatch, getState) => {
     .post("http://127.0.0.1:8000/api/auth/logout", null, tokenConfig(getState)) //body is null
     .then((res) => dispatch({ type: slice.actions.logoutSuccess.type }))
     .catch((err) => {
+      console.log(err);
       // dispatch(returnErrors(err.response.data, err.response.status));
     });
 };

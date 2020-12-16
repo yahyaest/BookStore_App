@@ -64,13 +64,15 @@ function NavBar(props) {
               >
                 Books
               </Link>
-              {isAuthenticated && <Link
-                to="/orders"
-                className="navbar-item"
-                style={{ color: "gold" }}
-              >
-                Orders
-              </Link>}
+              {isAuthenticated && (
+                <Link
+                  to="/orders"
+                  className="navbar-item"
+                  style={{ color: "gold" }}
+                >
+                  Orders
+                </Link>
+              )}
 
               <span className="navbar-item">
                 <a

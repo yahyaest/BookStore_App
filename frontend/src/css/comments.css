@@ -2,6 +2,10 @@
   width: 80%;
 }
 
+.bookComments {
+  margin-top: 100px;
+}
+
 .comment__add {
   margin: 20px 0;
 }
@@ -18,6 +22,11 @@
 .comment__date {
   color: gray;
   margin: 0 10px;
+}
+
+.comment__button {
+  float: right;
+  margin: 10px 0;
 }
 
 .comment__showReplies {
