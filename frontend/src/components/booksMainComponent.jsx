@@ -3,10 +3,13 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { updateProfileLiked } from "./../redux/users";
 import { Link, useHistory } from "react-router-dom";
-import { Card, Dropdown } from "react-bootstrap";
 import _ from "lodash";
 import NavBar from "./../common/navbar";
+import Pagination from "./../common/pagination";
 import BooksCarouselComponent from "./booksCarouselComponent";
+import BooksCards from "./booksCards";
+import SortSelector from "./../common/sortSelector";
+import GenreSelector from "./../common/GenreSelector";
 
 function BooksComponentPage(props) {
   BooksComponentPage.prototype = {
@@ -18,11 +21,14 @@ function BooksComponentPage(props) {
   };
 
   const { books, users, username, isAuthenticated } = props;
-  const [booksByGenre, setBooksByGenre] = useState([]);
-  const [sortedBooks, setSortedBooks] = useState([]);
-  const [genre, setGenre] = useState("Genres");
+
   const [user, setUser] = useState({});
+  const [genre, setGenre] = useState("Genres");
+  const [sortBy, setSortBy] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
   const [isLiked, setIsLiked] = useState([]);
+
+  const pageSize = 6;
 
   let history = useHistory();
 
@@ -37,10 +43,51 @@ function BooksComponentPage(props) {
 
   useEffect(async () => {
     await sleep(100);
-    setBooksByGenre(books);
-    setSortedBooks(books);
     getUser();
   }, [books, users]);
+
+  const goToBookPage = (id) => {
+    history.push(`/books/${id}`);
+  };
+
+  const getGenresList = (books) => {
+    let genres = ["All"];
+    books?.map((book) => {
+      if (genres.findIndex((genre) => book.genre === genre) === -1)
+        genres.push(book.genre);
+    });
+    return genres;
+  };
+
+  const filterByGenre = (genre) => {
+    if (genre === "All") setGenre("Genres");
+    else setGenre(genre);
+  };
+
+  const onSort = (sortType) => {
+    setSortBy(sortType);
+  };
+
+  const paginate = (items, pageNumber, pageSize) => {
+    const startIndex = (pageNumber - 1) * pageSize;
+    return _(items).slice(startIndex).take(pageSize).value();
+  };
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+  const getBookData = (genre, sortType) => {
+    // 1-filter
+    let result = [];
+    if (genre === "Genres") result = books;
+    else result = books.filter((book) => book.genre === genre);
+    // 2-sort
+    const sorted = _.orderBy(result, sortType, "asc");
+    // 3-paginate
+    const booksList = paginate(sorted, currentPage, pageSize);
+    return { booksList };
+  };
 
   const CheckBookIsLiked = (book) => {
     if (isAuthenticated) {
@@ -61,37 +108,6 @@ function BooksComponentPage(props) {
         return true;
       }
     }
-  };
-
-  const goToBookPage = (id) => {
-    history.push(`/books/${id}`);
-  };
-
-  const getGenresList = (books) => {
-    let genres = [];
-    books?.map((book) => {
-      if (genres.findIndex((genre) => book.genre === genre) === -1)
-        genres.push(book.genre);
-    });
-    return genres;
-  };
-
-  const filterByGenre = (genre) => {
-    setBooksByGenre([...books]);
-
-    const result = books.filter((book) => book.genre === genre);
-    setBooksByGenre(result);
-    setSortedBooks(result);
-
-    setGenre(genre);
-
-    return sortedBooks;
-  };
-
-  const onSort = (list, sortType) => {
-    const sorted = _.orderBy(list, sortType, "asc");
-    setSortedBooks(sorted);
-    return sortedBooks;
   };
 
   const handleFavouriteIcon = (id, index, book) => {
@@ -117,6 +133,7 @@ function BooksComponentPage(props) {
     }
   };
 
+  const { booksList } = getBookData(genre, sortBy);
   return (
     <React.Fragment>
       <NavBar />
@@ -125,82 +142,32 @@ function BooksComponentPage(props) {
           className="books__carousel"
           booksList={props.books}
         />
+
         <div className="books__filters">
-          <Dropdown>
-            <Dropdown.Toggle variant="warning" id="dropdown-basic" size="sm">
-              Sort By
-            </Dropdown.Toggle>
-
-            <Dropdown.Menu>
-              <Dropdown.Item onClick={() => onSort(booksByGenre, "name")}>
-                Name
-              </Dropdown.Item>
-              <Dropdown.Item onClick={() => onSort(booksByGenre, "price")}>
-                Price
-              </Dropdown.Item>
-              <Dropdown.Item onClick={() => onSort(booksByGenre, "rate")}>
-                Rate
-              </Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
-
-          <Dropdown>
-            <Dropdown.Toggle variant="danger" id="dropdown-basic" size="sm">
-              {genre}
-            </Dropdown.Toggle>
-
-            <Dropdown.Menu>
-              <Dropdown.Item
-                onClick={() => {
-                  {
-                    setSortedBooks(books);
-                    setBooksByGenre(books);
-                    setGenre("Genres");
-                  }
-                }}
-              >
-                All
-              </Dropdown.Item>
-              {getGenresList(books)?.map((genre) => (
-                <Dropdown.Item key={genre} onClick={() => filterByGenre(genre)}>
-                  {genre}
-                </Dropdown.Item>
-              ))}
-            </Dropdown.Menu>
-          </Dropdown>
+          <SortSelector onSort={onSort} />
+          <GenreSelector
+            genre={genre}
+            books={books}
+            getGenresList={getGenresList}
+            filterByGenre={filterByGenre}
+          />
         </div>
 
-        <div className="books__cards">
-          {sortedBooks?.map((book, index) => (
-            <Card
-              key={book.id}
-              className="book__card"
-              style={{ width: "18rem" }}
-            >
-              <Card.Img
-                variant="top"
-                src={book.image}
-                onClick={() => goToBookPage(book.id)}
-              />
-              <Card.Body>
-                <Card.Title>{book.name}</Card.Title>
-
-                <Card.Text>{book.author}</Card.Text>
-                <Card.Text>Rate : {book.rate} </Card.Text>
-                <Card.Text>
-                  <strong>{book.price} $</strong>
-                </Card.Text>
-                <i
-                  className={
-                    CheckBookIsLiked(book) ? "fa fa-heart" : "fa fa-heart-o"
-                  }
-                  onClick={() => handleFavouriteIcon(user?.id, index, book)}
-                ></i>
-              </Card.Body>
-            </Card>
-          ))}
-        </div>
+        <BooksCards
+          booksList={booksList}
+          user={user}
+          goToBookPage={goToBookPage}
+          CheckBookIsLiked={CheckBookIsLiked}
+          handleFavouriteIcon={handleFavouriteIcon}
+        />
       </div>
+
+      <Pagination
+        itemsCounts={books.length}
+        pageSize={pageSize}
+        currentPage={currentPage}
+        onPageChange={handlePageChange}
+      />
     </React.Fragment>
   );
 }
