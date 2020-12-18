@@ -2,7 +2,7 @@ import React from "react";
 import { Card } from "react-bootstrap";
 
 function booksCards(props) {
-  const { booksList } = props;
+  const { booksList, user } = props;
   return (
     <div className="books__cards">
       {booksList?.map((book, index) => (
@@ -10,6 +10,7 @@ function booksCards(props) {
           <Card.Img
             variant="top"
             src={book.image}
+            alt={book.name}
             onClick={() => props.goToBookPage(book.id)}
           />
           <Card.Body>

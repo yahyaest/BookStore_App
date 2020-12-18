@@ -1,8 +1,9 @@
 import React from "react";
+import _ from "lodash";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 
- function BooksCarouselComponent(props) {
+function BooksCarouselComponent(props) {
   const { booksList } = props;
   const responsive = {
     desktop: {
@@ -11,9 +12,17 @@ import "react-multi-carousel/lib/styles.css";
     },
   };
 
+  const getBestBooks = () => {
+    let bestBooks = _.orderBy(booksList, "rate", "desc");
+    bestBooks = _.slice(bestBooks, [0], [10]);
+    return bestBooks;
+  };
+  getBestBooks();
+
   // console.log(booksList?.length);
   return (
     <React.Fragment>
+      <h1>Top 10 Books</h1>
       <Carousel
         swipeable={false}
         draggable={false}
@@ -26,12 +35,16 @@ import "react-multi-carousel/lib/styles.css";
         dotListClass="custom-dot-list-style"
         itemClass="carousel-item-padding-20-px"
       >
-        {booksList?.map((book) => (
+        {getBestBooks()?.map((book) => (
           <div key={book.id}>
-            <img className="carousel__img" src={book.image} alt="" />
+            <img
+              className="carousel__img"
+              src={book.image}
+              alt={book.name}
+              onClick={() => props.goToBookPage(book.id)}
+            />
           </div>
         ))}
-
       </Carousel>
     </React.Fragment>
   );

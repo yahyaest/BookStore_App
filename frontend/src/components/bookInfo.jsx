@@ -114,7 +114,9 @@ function BookInfo(props) {
           <h6 className="book__genre">Genre : {book.genre}</h6>
           <h6 className="book__publisher">Publisher : {book.publisher}</h6>
           <div className="book__purshase">
-            <strong>{book.price} $</strong>
+            <h6 className="book__price">
+              Price : <strong>{book.price} $</strong>
+            </h6>
             <div className="book__buttons">
               <Button
                 variant="info"

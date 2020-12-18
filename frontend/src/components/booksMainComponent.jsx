@@ -62,10 +62,12 @@ function BooksComponentPage(props) {
   const filterByGenre = (genre) => {
     if (genre === "All") setGenre("Genres");
     else setGenre(genre);
+    setCurrentPage(1);
   };
 
   const onSort = (sortType) => {
     setSortBy(sortType);
+    setCurrentPage(1);
   };
 
   const paginate = (items, pageNumber, pageSize) => {
@@ -86,7 +88,8 @@ function BooksComponentPage(props) {
     const sorted = _.orderBy(result, sortType, "asc");
     // 3-paginate
     const booksList = paginate(sorted, currentPage, pageSize);
-    return { booksList };
+    const count = genre === "Genres" ? books.length : result.length;
+    return { booksList, count };
   };
 
   const CheckBookIsLiked = (book) => {
@@ -133,7 +136,7 @@ function BooksComponentPage(props) {
     }
   };
 
-  const { booksList } = getBookData(genre, sortBy);
+  const { booksList, count } = getBookData(genre, sortBy);
   return (
     <React.Fragment>
       <NavBar />
@@ -141,6 +144,7 @@ function BooksComponentPage(props) {
         <BooksCarouselComponent
           className="books__carousel"
           booksList={props.books}
+          goToBookPage={goToBookPage}
         />
 
         <div className="books__filters">
@@ -163,7 +167,7 @@ function BooksComponentPage(props) {
       </div>
 
       <Pagination
-        itemsCounts={books.length}
+        itemsCounts={count}
         pageSize={pageSize}
         currentPage={currentPage}
         onPageChange={handlePageChange}
