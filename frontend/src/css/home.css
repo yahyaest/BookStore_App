@@ -34,3 +34,8 @@
     url(../../../frontend/src/images/Home/back3.jpg);
   margin: 20px 0;
 }
+
+.footer__socialLink {
+  margin: 0 5px;
+}
+

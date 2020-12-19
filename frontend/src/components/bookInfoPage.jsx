@@ -5,6 +5,7 @@ import { loadBook } from "./../redux/books";
 import BookComment from "./bookComment";
 import BookInfo from "./bookInfo";
 import NavBar from "./../common/navbar";
+import Footer from "./../common/footer";
 
 function BookInfoPage(props) {
   BookInfoPage.propTypes = {
@@ -21,22 +22,22 @@ function BookInfoPage(props) {
     const profile = users.filter((user) => user.username === username);
     setUser(profile[0]);
   };
-  
+
   useEffect(() => {
     props.loadBook(bookId);
     getUser();
   }, [users]);
-  
+
   return (
     <React.Fragment>
       <NavBar />
-
       <BookInfo book={book} user={user} />
       <div className="comments__component">
         <h3>Comments</h3>
 
         <BookComment bookId={book.id} />
       </div>
+      <Footer />;
     </React.Fragment>
   );
 }

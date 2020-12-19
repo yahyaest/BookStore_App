@@ -5,6 +5,7 @@ import { updateProfileLiked } from "./../redux/users";
 import { Link, useHistory } from "react-router-dom";
 import _ from "lodash";
 import NavBar from "./../common/navbar";
+import Footer from "./../common/footer";
 import Pagination from "./../common/pagination";
 import BooksCarouselComponent from "./booksCarouselComponent";
 import BooksCards from "./booksCards";
@@ -165,13 +166,13 @@ function BooksComponentPage(props) {
           handleFavouriteIcon={handleFavouriteIcon}
         />
       </div>
-
       <Pagination
         itemsCounts={count}
         pageSize={pageSize}
         currentPage={currentPage}
         onPageChange={handlePageChange}
       />
+      <Footer />
     </React.Fragment>
   );
 }
