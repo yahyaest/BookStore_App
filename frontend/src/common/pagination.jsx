@@ -1,7 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import _ from "lodash";
-import { Pagination } from "react-bootstrap";
+import Pagination from "react-bootstrap/Pagination";
+
 
 const Paginate = (props) => {
 Paginate.propTypes = {

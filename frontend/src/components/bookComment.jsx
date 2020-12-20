@@ -6,7 +6,9 @@ import {
   updateCommentCounter,
   updateCommentReplies,
 } from "../redux/comments";
-import { InputGroup, FormControl, Button } from "react-bootstrap";
+import InputGroup from "react-bootstrap/InputGroup";
+import FormControl from "react-bootstrap/FormControl";
+import Button from "react-bootstrap/Button";
 
 function BookComment(props) {
   BookComment.prototype = {

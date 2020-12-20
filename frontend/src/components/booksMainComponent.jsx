@@ -11,6 +11,7 @@ import BooksCarouselComponent from "./booksCarouselComponent";
 import BooksCards from "./booksCards";
 import SortSelector from "./../common/sortSelector";
 import GenreSelector from "./../common/GenreSelector";
+import Search from "./../common/search";
 
 function BooksComponentPage(props) {
   BooksComponentPage.prototype = {
@@ -26,6 +27,7 @@ function BooksComponentPage(props) {
   const [user, setUser] = useState({});
   const [genre, setGenre] = useState("Genres");
   const [sortBy, setSortBy] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [isLiked, setIsLiked] = useState([]);
 
@@ -49,6 +51,11 @@ function BooksComponentPage(props) {
 
   const goToBookPage = (id) => {
     history.push(`/books/${id}`);
+  };
+
+  const handleSearch = (e) => {
+    setCurrentPage(1);
+    setSearchQuery(e.currentTarget.value);
   };
 
   const getGenresList = (books) => {
@@ -83,13 +90,18 @@ function BooksComponentPage(props) {
   const getBookData = (genre, sortType) => {
     // 1-filter
     let result = [];
-    if (genre === "Genres") result = books;
+    if (searchQuery)
+      result = books.filter((book) =>
+        book.name.toLowerCase().startsWith(searchQuery.toLowerCase())
+      );
+    else if (genre === "Genres") result = books;
     else result = books.filter((book) => book.genre === genre);
     // 2-sort
     const sorted = _.orderBy(result, sortType, "asc");
     // 3-paginate
     const booksList = paginate(sorted, currentPage, pageSize);
-    const count = genre === "Genres" ? books.length : result.length;
+    const count =
+      genre === "Genres" && !searchQuery ? books.length : result.length;
     return { booksList, count };
   };
 
@@ -157,6 +169,8 @@ function BooksComponentPage(props) {
             filterByGenre={filterByGenre}
           />
         </div>
+
+        <Search handleSearch={handleSearch} />
 
         <BooksCards
           booksList={booksList}

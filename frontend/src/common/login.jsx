@@ -3,7 +3,9 @@ import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { PropTypes } from "prop-types";
 import { login } from "../redux/auth";
-import { Form, Button, Card } from "react-bootstrap";
+import  Form  from "react-bootstrap/Form";
+import  Button  from "react-bootstrap/Button";
+import  Card  from "react-bootstrap/Card";
 
 function Login(props) {
   Login.propTypes = {

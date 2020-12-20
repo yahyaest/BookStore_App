@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { updateProfileOrders, updateProfileLiked } from "./../redux/users";
-import { Button } from "react-bootstrap";
+import Button from "react-bootstrap/Button";
 
 function BookInfo(props) {
   BookInfo.propTypes = {

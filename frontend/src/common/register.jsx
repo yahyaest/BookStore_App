@@ -5,7 +5,9 @@ import { PropTypes } from "prop-types";
 import { register } from "../redux/auth";
 import { updateProfile } from "./../redux/users";
 //import { createMessage } from "../../actions/messages";
-import { Form, Button, Card } from "react-bootstrap";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
+import Card from "react-bootstrap/Card";
 
 function Register(props) {
   Register.propTypes = {

@@ -1,5 +1,5 @@
 import React from "react";
-import { Card } from "react-bootstrap";
+import Card from "react-bootstrap/Card";
 
 function booksCards(props) {
   const { booksList, user } = props;
