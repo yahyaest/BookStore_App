@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { updateProfileOrders, updateProfileLiked } from "./../redux/users";
+import { createMessage } from "../redux/messages";
+
 import Button from "react-bootstrap/Button";
 
 function BookInfo(props) {
@@ -9,6 +11,7 @@ function BookInfo(props) {
     isAuthenticated: PropTypes.bool,
     updateProfileOrders: PropTypes.func.isRequired,
     updateProfileLiked: PropTypes.func.isRequired,
+    createMessage: PropTypes.func.isRequired,
   };
 
   const { book, user, isAuthenticated } = props;
@@ -73,9 +76,11 @@ function BookInfo(props) {
       if (found === -1) {
         arrayOrders.push(book);
         setIsOrdered(true);
+        props.createMessage({ addedToChart: "Added to chart" });
       } else {
         arrayOrders.splice(found, 1);
         setIsOrdered(false);
+        props.createMessage({ removedFromChart: "Remove from chart" });
       }
       currentProfile.ordered_books = arrayOrders;
       props.updateProfileOrders(currentProfile, id);
@@ -93,9 +98,11 @@ function BookInfo(props) {
       if (found === -1) {
         arrayLiked.push(book);
         setIsLiked(true);
+        props.createMessage({ addedToLiked: "Added to liked books" });
       } else {
         arrayLiked.splice(found, 1);
         setIsLiked(false);
+        props.createMessage({ removedFromLiked: "Remove from liked books" });
       }
       currentProfile.liked_books = arrayLiked;
       props.updateProfileLiked(currentProfile, id);
@@ -166,4 +173,5 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   updateProfileOrders,
   updateProfileLiked,
+  createMessage,
 })(BookInfo);

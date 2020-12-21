@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { PropTypes } from "prop-types";
 import { register } from "../redux/auth";
 import { updateProfile } from "./../redux/users";
-//import { createMessage } from "../../actions/messages";
+import { createMessage } from "../redux/messages";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
@@ -13,6 +13,7 @@ function Register(props) {
   Register.propTypes = {
     register: PropTypes.func.isRequired,
     updateProfile: PropTypes.func.isRequired,
+    createMessage: PropTypes.func.isRequired,
     isAuthenticated: PropTypes.bool,
   };
 
@@ -30,7 +31,7 @@ function Register(props) {
   const onSubmit = async (e) => {
     e.preventDefault();
     if (password !== password2) {
-      // props.createMessage({ passwordNotMatch: "Passwords do not match" });
+      props.createMessage({ passwordNotMatch: "Passwords do not match" });
     } else {
       const newUser = {
         username,
@@ -157,5 +158,5 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   register,
   updateProfile,
-  //, createMessage
+  createMessage,
 })(Register);

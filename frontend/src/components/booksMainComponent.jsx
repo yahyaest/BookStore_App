@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { updateProfileLiked } from "./../redux/users";
+import { createMessage } from "../redux/messages";
+
 import { Link, useHistory } from "react-router-dom";
 import _ from "lodash";
 import NavBar from "./../common/navbar";
@@ -20,6 +22,7 @@ function BooksComponentPage(props) {
     username: PropTypes.string.isRequired,
     isAuthenticated: PropTypes.bool.isRequired,
     updateProfileLiked: PropTypes.func.isRequired,
+    createMessage: PropTypes.func.isRequired,
   };
 
   const { books, users, username, isAuthenticated } = props;
@@ -138,11 +141,13 @@ function BooksComponentPage(props) {
         let array = [...isLiked];
         array[index] = true;
         setIsLiked(array);
+        props.createMessage({ addedToLiked: "Added to liked books" })
       } else {
         arrayLiked.splice(found, 1);
         let array = [...isLiked];
         array[index] = false;
         setIsLiked(array);
+        props.createMessage({ removedFromLiked: "Removed from liked books" });
       }
       currentProfile.liked_books = arrayLiked;
       props.updateProfileLiked(currentProfile, id);
@@ -198,6 +203,6 @@ const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
 });
 
-export default connect(mapStateToProps, { updateProfileLiked })(
+export default connect(mapStateToProps, { updateProfileLiked, createMessage })(
   BooksComponentPage
 );

@@ -25,7 +25,7 @@ function booksCards(props) {
               className={
                 props.CheckBookIsLiked(book) ? "fa fa-heart" : "fa fa-heart-o"
               }
-              onClick={() => props.handleFavouriteIcon(user?.id, index, book)}
+              onClick={() =>{ props.handleFavouriteIcon(user?.id, index, book)}}
             ></i>
           </Card.Body>
         </Card>

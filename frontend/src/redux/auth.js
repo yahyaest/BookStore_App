@@ -1,5 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { returnErrors } from "./errors";
+
 
 const slice = createSlice({
   name: "auth",
@@ -99,7 +101,7 @@ export const loadUser = () => (dispatch, getState) => {
       dispatch({ type: slice.actions.userLoaded.type, payload: res.data })
     )
     .catch((err) => {
-      //dispatch(returnErrors(err.response.data, err.response.status));
+      dispatch(returnErrors(err.response.data, err.response.status));
       dispatch({ type: slice.actions.authError.type });
     });
 };
@@ -122,7 +124,7 @@ export const login = (username, password) => (dispatch) => {
       dispatch({ type: slice.actions.loginSuccess.type, payload: res.data });
     })
     .catch((err) => {
-      //dispatch(returnErrors(err.response.data, err.response.status));
+      dispatch(returnErrors(err.response.data, err.response.status));
       console.log(err);
       dispatch({ type: slice.actions.loginFail.type });
     });
@@ -135,7 +137,7 @@ export const logout = () => (dispatch, getState) => {
     .then((res) => dispatch({ type: slice.actions.logoutSuccess.type }))
     .catch((err) => {
       console.log(err);
-      // dispatch(returnErrors(err.response.data, err.response.status));
+      dispatch(returnErrors(err.response.data, err.response.status));
     });
 };
 
@@ -159,7 +161,7 @@ export const register = ({ username, password, email, country, age }) => (
       dispatch({ type: slice.actions.registerSuccess.type, payload: res.data })
     )
     .catch((err) => {
-      // dispatch(returnErrors(err.response.data, err.response.status));
+      dispatch(returnErrors(err.response.data, err.response.status));
       dispatch({ type: slice.actions.registerFail.type });
     });
 };
