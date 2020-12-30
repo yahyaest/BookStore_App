@@ -39,3 +39,42 @@
   margin: 0 5px;
 }
 
+/* Navbar Search Form*/
+.search__list {
+  width: 100%;
+  position: absolute;
+  margin-top: 38px;
+  background: white;
+  color: black;
+  text-align: left;
+  font-size: 12px;
+  box-shadow: black 3px 5px 10px;
+}
+.search__list__element {
+  display: flex;
+  flex-direction: row;
+  border-bottom: 1px solid wheat;
+  height: 60px;
+  cursor: pointer;
+  color: black;
+}
+
+.search__list__element:hover,
+.search__all__element:hover {
+  background: wheat;
+}
+
+.search__list__element img {
+  width: 40px;
+  margin: 0 10px;
+}
+
+.search__all__element {
+  height: 60px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.search__all__element p {
+  padding-top: 20px;
+}

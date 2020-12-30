@@ -13,12 +13,12 @@ import { loadOrders } from "./redux/orders";
 
 import BooksMainComponent from "./components/booksMainComponent";
 import BookInfoPage from "./components/bookInfoPage";
+import SearchPage from "./components/searchPage";
 import Orders from "./components/orders";
 import Login from "./common/login";
 import Register from "./common/register";
 import Home from "./components/home";
-import Alerts  from "./common/alerts";
-
+import Alerts from "./common/alerts";
 
 // CSS
 import "./App.css";
@@ -48,8 +48,9 @@ function App() {
         <Alerts />
 
         <Switch>
+          <Route path="/search/:query" component={SearchPage}></Route>
           <Route path="/books/:id" component={BookInfoPage}></Route>
-          <Route path="/books" component={BooksMainComponent}></Route>{" "}
+          <Route path="/books" component={BooksMainComponent}></Route>
           <Route path="/orders" component={Orders}></Route>
           <Route path="/login" component={Login}></Route>
           <Route path="/register" component={Register}></Route>
